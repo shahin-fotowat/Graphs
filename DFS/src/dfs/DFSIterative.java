@@ -3,10 +3,20 @@ import java.util.*;
 import node.GraphNode;
 
 public class DFSIterative {
+	/*
+	 Create an array list of type Graph node
+	in which every index of the array list contains an object of the graph node class
+	With the following attributes
+		- index 
+		- name
+		- parent
+		- isVisited 
+		- ArrayList<GraphNode> neighbors 
+	*/
 	ArrayList<GraphNode> nodeList = new ArrayList<GraphNode>();
 
 
-	public DFSIterative(ArrayList<GraphNode> nodeList) {
+	public DFSIterative(ArrayList<GraphNode> nodeList) {  // Constructor
 		
 		this.nodeList = nodeList;
 	}
@@ -24,23 +34,23 @@ public class DFSIterative {
 	//dfs traversal by a source node
 	void dfsVisit(GraphNode node) {
 		//make an empty stack
-		Stack<GraphNode>stack = new Stack<>();
+		Stack<GraphNode> stack_of_verices = new Stack<>();
 		//add source node to stack
-		stack.push(node);
+		stack_of_verices.push(node);
 		//while queue is not empty
-		while(!stack.isEmpty()) {
+		while(!stack_of_verices.isEmpty()) {
 			//pop a node from stack
-			GraphNode presentNode = stack.pop();
+			GraphNode current_vertix = stack_of_verices.pop();
 			//mark node as visited
-			presentNode.setVisited(true);
+			current_vertix.setVisited(true);
 			//print the node
-			System.out.print(presentNode.getName()+" ");
+			System.out.print(current_vertix.getName() + " ");
 			//for each neighbor of present node
-			for(GraphNode neighbor: presentNode.getNeighbors()) {
+			for(GraphNode neighbor: current_vertix.getNeighbors()) {
 				//if neighbor is not visited then add it to queue
 				if(!neighbor.isVisited()) {
-				
-					stack.add(neighbor);
+					//add the unvisited neighbor of the current vertix and set it as visited
+					stack_of_verices.add(neighbor);
 					neighbor.setVisited(true);
 				}
 			}
