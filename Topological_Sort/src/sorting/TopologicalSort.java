@@ -25,7 +25,7 @@ public class TopologicalSort {
 		}
 	}
 	
-	// Topological visit by a source node
+	// Topological visit by a source node 
 	void topologicalVisit(GraphNode node, Stack<GraphNode> stack) {
 		// if neighbor is not visited then recursive call to it
 		for (GraphNode neighbor : node.getNeighbors()){	

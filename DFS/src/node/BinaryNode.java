@@ -24,7 +24,7 @@ public class BinaryNode {
 
 	public BinaryNode getLeft() {
 		return left;
-	}//end of method
+	}//end of method 
 
 	public void setLeft(BinaryNode left) {
 		this.left = left;
