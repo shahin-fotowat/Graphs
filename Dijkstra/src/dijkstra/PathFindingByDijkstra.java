@@ -6,28 +6,36 @@ import node.*;
 public class PathFindingByDijkstra {
 	ArrayList<WeightedNode> nodeList = new ArrayList<WeightedNode>();
 	
-	
 	//Constructor
 	public PathFindingByDijkstra(ArrayList<WeightedNode> nodeList) {
 		this.nodeList = nodeList;
 	}
 	
-	
 	//Dijkstra from a Source Node
-	void dijkstra(WeightedNode node) {  
+	void dijkstra(WeightedNode node) { 
+		
+		// Min-Heap where the smallest weight in the front of the priority queue 
 		PriorityQueue<WeightedNode> queue = new PriorityQueue<>();
-		node.setDistance(0); //This will make sure that we start from this vertex in priority queue as distance is min
+		
+		//This will make sure that the distance of the starting vertex passed to the dijkstra
+		// method is 0 (min)
+		node.setDistance(0); 
 		queue.addAll(nodeList);
+		
 		while(!queue.isEmpty()) {
-			WeightedNode presentNode = queue.remove(); //remove node with minimum distance from queue
-			for(WeightedNode neighbor: presentNode.getNeighbors()) { //for each neighbor
-				if(queue.contains(neighbor)) { //if neighbor is not visited
-					// if 'known distance' of neighbor is greater than new path then, 
-					// update 'distance' of neighbor 
-					// and also new parent as presentNode
-					if(neighbor.getDistance() > (presentNode.getDistance()+presentNode.getWeightMap().get(neighbor))) {
-						neighbor.setDistance((presentNode.getDistance()+presentNode.getWeightMap().get(neighbor)));
-						neighbor.setParent(presentNode);
+			// remove node with minimum distance from queue
+			WeightedNode currentNode = queue.remove(); 
+			
+			// for each neighbor
+			for(WeightedNode neighbor: currentNode.getNeighbors()) { 
+				// if neighbor is not visited
+				if(queue.contains(neighbor)) { 
+					// if 'known distance' of neighbor is greater than new path then, update 'distance' of neighbor 
+					// and also new parent as currentNode
+					if(neighbor.getDistance() > (currentNode.getDistance() + currentNode.getWeightMap().get(neighbor))) {
+						neighbor.setDistance((currentNode.getDistance() + currentNode.getWeightMap().get(neighbor)));
+						neighbor.setParent(currentNode);
+						
 						//Refresh the Priority Queue 
 						queue.remove(neighbor);
 						queue.add(neighbor);
@@ -39,7 +47,7 @@ public class PathFindingByDijkstra {
 		
 		//print table of node with minimum distance and shortest path from source
 		for(WeightedNode nodeToCheck: nodeList) {
-			System.out.print("Node "+nodeToCheck+", distance: "+nodeToCheck.getDistance()+", Path: ");
+			System.out.print("Node " + nodeToCheck + ", distance: " + nodeToCheck.getDistance() + ", Path: ");
 			pathPrint(nodeToCheck);
 			System.out.println();
 		}
@@ -47,9 +55,9 @@ public class PathFindingByDijkstra {
 	
 	
 	private static void pathPrint(WeightedNode node) {
-		if(node.getParent()!=null) {
+		if(node.getParent() != null) {
 			pathPrint(node.getParent());
-			System.out.print("->"+node);
+			System.out.print("->" + node);
 		}
 		else 
 			System.out.print(node);
@@ -57,11 +65,13 @@ public class PathFindingByDijkstra {
 
 	
 	// add a weighted directed edge between two nodes
-	public void addWeightedEdge(int i, int j, int d) {
-		WeightedNode first = nodeList.get(i-1);
-		WeightedNode second = nodeList.get(j-1);
-		first.getNeighbors().add(second);
-		first.getWeightMap().put(second,d);
+	public void addWeightedEdge(int v1, int v2, int dist) {
+		WeightedNode first_vertex  = nodeList.get(v1 - 1);
+		WeightedNode second_vertex = nodeList.get(v2 - 1);
+		//Adds the second vertex as the neighbor of the first vertex
+		first_vertex.getNeighbors().add(second_vertex);
+		//using a hashmap it stores the weight of the edge between the two vertices
+		first_vertex.getWeightMap().put(second_vertex, dist);
 	}//end of method
 
 }//end of class
